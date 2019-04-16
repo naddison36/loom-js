@@ -27,28 +27,6 @@ export function getMetamaskSigner(provider: any): ethers.Signer {
   return new ethers.providers.Web3Provider(provider).getSigner()
 }
 
-export async function getScatterSigner() {
-  // const network = ScatterJS.Network.fromJson({
-  //   blockchain: 'eos',
-  //   chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-  //   host: 'nodes.get-scatter.com',
-  //   port: 443,
-  //   protocol: 'https'
-  // })
-  //
-  // ScatterJS.connect('LOOM-JS-E2E', { network }).then((connected: boolean) => {
-  //   console.log('connected', connected)
-  // })
-  // ecc.randomKey().then((privateWif: any) =>  {
-  //   const pubkey = ecc.privateToPublic(privateWif)
-  //   console.log(pubkey)
-  // })
-
-  const privKey = await ecc.randomKey()
-  const pubKey = ecc.privateToPublic(privKey)
-  // console.log(privKey, pubKey)
-}
-
 /**
  * Returns json rpc signer, ex: http://localhost:8545
  *

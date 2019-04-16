@@ -17,7 +17,6 @@ import { createDefaultTxMiddleware, eosAddressToEthAddress } from '../../helpers
 import {
   EthersSigner,
   getJsonRPCSignerAsync,
-  getScatterSigner,
   OfflineScatterEosSign
 } from '../../sign-helpers'
 import { createTestHttpClient } from '../helpers'
@@ -152,8 +151,6 @@ async function bootstrapTest(
   const contract = new web3.eth.Contract(ABI, result.contractAddress, {
     from: LocalAddress.fromPublicKey(pubKey).toString()
   })
-
-  getScatterSigner()
 
   return { client, contract, loomProvider, pubKey, privKey }
 }
