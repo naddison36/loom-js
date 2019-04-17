@@ -76,8 +76,8 @@ export class EthersSigner implements ISignerAsync {
 /**
  * Abstract class for signing with Scatter
  */
-export abstract class BaseScatterSigner implements ISignerAsync {
-  protected _nonce: string = ''
+export abstract class BaseEosScatterSigner implements ISignerAsync {
+  protected _nonce: string = '0'
 
   get nonce(): string {
     return this._nonce
@@ -94,7 +94,7 @@ export abstract class BaseScatterSigner implements ISignerAsync {
  * Signs message using the Scatter from the ScatterJS
  * This signer needs to have the ScatterJS started and running
  */
-export class ScatterSigner extends BaseScatterSigner {
+export class EosScatterSigner extends BaseEosScatterSigner {
   private _scatter: any
   private _publicKey: string
 
@@ -129,7 +129,7 @@ export class ScatterSigner extends BaseScatterSigner {
  * Based on Scatter authenticate method:
  * https://github.com/GetScatter/scatter-js/blob/master/mock-sites/vanilla-eos/index.html#L187
  */
-export class OfflineScatterEosSign extends BaseScatterSigner {
+export class OfflineEosScatterEosSign extends BaseEosScatterSigner {
   private _privateKey: string
 
   constructor(privateKey: string) {
