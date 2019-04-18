@@ -54,7 +54,8 @@ const toCoinE18 = (amount: number): BN => {
 }
 
 const eosKeys = async () => {
-  const eosPrivateKey = await ecc.randomKey()
+  const eosPrivateKey = '5KL4takZCcqbXc97cShguRYWi1mYUEWqnc1F9Qfkfge46dVozbk'
+  // await ecc.randomKey()
   const eosAddress = ecc.privateToPublic(eosPrivateKey)
   return { eosPrivateKey, eosAddress }
 }
@@ -151,14 +152,14 @@ async function bootstrapTest(
   return { client, contract, loomProvider, pubKey, privKey }
 }
 
-test('Test Signed EOS Tx Middleware Type 1', async t => {
+test.only('Test Signed EOS Tx Middleware Type 1', async t => {
   try {
     const { client, loomProvider, contract } = await bootstrapTest(createTestHttpClient)
 
     // Get address of the account 0 = 0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1
     const { eosPrivateKey, eosAddress } = await eosKeys()
     const offlineScatterSigner = new OfflineEosScatterEosSign(eosPrivateKey)
-    const callerChainId = 'eos'
+    const callerChainId = 'eos-scatter'
     const ethAddress = eosAddressToEthAddress(eosAddress).toLowerCase()
 
     // Override the default caller chain ID
@@ -215,7 +216,7 @@ test('Test Signed EOS Tx Middleware Type 2', async t => {
 
     // Add mapping if not added yet
     if (!(await addressMapper.hasMappingAsync(from))) {
-      offlineScatterSigner.nonce = '1'
+      offlineScatterSigner.nonce = '0'
       await addressMapper.addIdentityMappingAsync(from, to, offlineScatterSigner)
     }
 
@@ -227,7 +228,7 @@ test('Test Signed EOS Tx Middleware Type 2', async t => {
       t.error(err)
     }
 
-    const callerChainId = 'eos1'
+    const callerChainId = 'eos-scatter1'
     // Override the default caller chain ID
     loomProvider.callerChainId = callerChainId
     // Ethereum account needs its own middleware

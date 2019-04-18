@@ -893,6 +893,7 @@ export class LoomProvider {
     txTransaction: Transaction
   ): Promise<Uint8Array | void> {
     const middleware = this._accountMiddlewares.get(fromPublicAddr)
+    log('Middlewares used', middleware)
     return this._client.commitTxAsync<Transaction>(txTransaction, { middleware })
   }
 

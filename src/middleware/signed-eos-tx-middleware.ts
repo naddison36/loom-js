@@ -29,6 +29,9 @@ export class SignedEosTxMiddleware implements ITxMiddlewareHandler {
   async Handle(txData: Readonly<Uint8Array>): Promise<Uint8Array> {
     const txDataHex = bytesToHex(txData)
     this._signer.nonce = `${this.getNonce(txData)}`
+
+    log(`Nonce to sign ${this._signer.nonce}`)
+
     const sig = await this._signer.signAsync(txDataHex)
 
     log(`signer: ${this._signerAddress}, signature: ${sig}`, sig)

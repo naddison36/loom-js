@@ -1,8 +1,6 @@
 import ethutil from 'ethereumjs-util'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
-import ScatterJS from 'scatterjs-core'
-import ScatterEOS from 'scatterjs-plugin-eosjs'
 import ecc from 'eosjs-ecc'
 
 const web3 = new Web3()
@@ -80,7 +78,7 @@ export abstract class BaseEosScatterSigner implements ISignerAsync {
   protected _nonce: string = '0'
 
   get nonce(): string {
-    return this._nonce
+    return ecc.sha256(this._nonce).slice(0, 12)
   }
 
   set nonce(n: string) {
@@ -117,8 +115,13 @@ export class EosScatterSigner extends BaseEosScatterSigner {
       throw Error(`PublicKey isn't valid`)
     }
 
-    const tx = await this._scatter.authenticate(this.nonce, msg, this._publicKey)
-    return Buffer.from(tx, 'hex')
+    const signature = await this._scatter.authenticate(
+      this.nonce,
+      ecc.sha256(msg),
+      this._publicKey
+    )
+
+    return Buffer.from(signature)
   }
 }
 
